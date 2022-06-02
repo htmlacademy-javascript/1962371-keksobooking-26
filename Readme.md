@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Денис Жосу](https://up.htmlacademy.ru/javascript/26/user/1962371).
-* Наставник: `Неизвестно`.
+* Наставник: [Андрей Ефимов](https://up.htmlacademy.ru/javascript/26/user/367335).
 
 ---
 
