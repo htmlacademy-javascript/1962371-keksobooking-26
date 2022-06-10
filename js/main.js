@@ -15,7 +15,7 @@ const getRandomPositiveInteger = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-getRandomPositiveInteger(1, 2);
+getRandomPositiveInteger(1, 10);
 
 //Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
 const getRandomPositiveFloat = (min, max, digits = 1) => {
@@ -35,4 +35,4 @@ const getRandomPositiveFloat = (min, max, digits = 1) => {
   return parseFloat(result.toFixed(digits));
 };
 
-getRandomPositiveFloat(1, 2);
+getRandomPositiveFloat(1, 10);
