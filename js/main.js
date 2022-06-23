@@ -41,13 +41,13 @@ const OFFER_TYPE = [
   'flat',
   'house',
   'bungalow',
-  'hotel',
+  'hotel'
 ];
 
 const CHECK_TIME = [
   '12:00',
   '13:00',
-  '14:00',
+  '14:00'
 ];
 
 const FEATURES = [
@@ -56,7 +56,7 @@ const FEATURES = [
   'parking',
   'washer',
   'elevator',
-  'conditioner',
+  'conditioner'
 ];
 
 const PHOTOS = [
@@ -67,7 +67,7 @@ const PHOTOS = [
 
 const PriceRange = {
   MIN: 1000,
-  MAX: 100000,
+  MAX: 100000
 };
 
 const LatRange = {
@@ -82,21 +82,29 @@ const LngRange = {
 
 const RoomsRange = {
   MIN: 1,
-  MAX: 5,
+  MAX: 5
 };
 
 const GuestsRange = {
   MIN: 1,
-  MAX: 10,
+  MAX: 10
+};
+
+//Функция, возвращающая число с ведущий нулем
+const getNumberWithZero = (number) => number < 10 ? `0${number}` : number;
+
+//Функция, возвращающая рандомный элемент
+const getRandomElement = (arr) => arr[getRandomPositiveInteger(0, arr.length - 1)];
+
+//Функция, возвращающая массив случайной длины
+const getRandomArrayPart = (arr) => {
+  const indexes = [getRandomPositiveInteger(0, FEATURES.length), getRandomPositiveInteger(0, FEATURES.length)];
+  return arr.slice(...indexes.sort());
 };
 
 const createOffer = (_item, i) => {
   const index = i + 1;
   const COARD_AMOUNT = 5;
-  //Функция, возвращающая число с ведущий нулем
-  const getNumberWithZero = (number) => number < 10 ? `0${number}` : number;
-  //Функция, возвращающая рандомный элемент
-  const getRandomElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
   const lat = getRandomPositiveFloat(LatRange.MIN, LatRange.MAX, COARD_AMOUNT);
   const lng = getRandomPositiveFloat(LngRange.MIN, LngRange.MAX, COARD_AMOUNT);
 
@@ -113,9 +121,9 @@ const createOffer = (_item, i) => {
       guests: getRandomPositiveInteger(GuestsRange.MIN, GuestsRange.MAX),
       checkin: getRandomElement(CHECK_TIME),
       checkout: getRandomElement(CHECK_TIME),
-      features: getRandomElement(FEATURES),
+      features: getRandomArrayPart(FEATURES),
       description: `${DESCRIPTION}`,
-      photos: getRandomElement(PHOTOS),
+      photos: getRandomArrayPart(PHOTOS)
     },
     location: {
       lat,
@@ -124,7 +132,6 @@ const createOffer = (_item, i) => {
   };
 };
 
-const similarOffer = Array.from({length: 10}, createOffer);
-
-similarOffer();
-createOffer();
+const getRandomOffers = (length) => Array.from({ length }, createOffer);
+const OFFERS_COUNT = 10;
+export const offers = getRandomOffers(OFFERS_COUNT);
