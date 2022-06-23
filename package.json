@@ -19,7 +19,7 @@
   "license": "MIT",
   "pre-commit": "lint",
   "scripts": {
-    "start": "npm run lint && browser-sync start --config \"bs-config.cjs\"",
+    "start": "browser-sync start --config \"bs-config.cjs\"",
     "lint": "eslint js/"
   },
   "engines": {

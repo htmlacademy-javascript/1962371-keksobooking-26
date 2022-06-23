@@ -19,9 +19,8 @@ module.exports = {
 
           if (results.filter(({ messages }) => messages.length).length) {
             console.log(formatter.format(results));
-          } else {
-            this.reload();
           }
+          this.reload();
         } catch (err) {
           process.exitCode = 1;
           console.error(err);

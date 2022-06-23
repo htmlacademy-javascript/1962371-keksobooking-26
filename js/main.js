@@ -15,8 +15,6 @@ const getRandomPositiveInteger = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-getRandomPositiveInteger(1, 10);
-
 //Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
 const getRandomPositiveFloat = (min, max, digits = 1) => {
   if (min < 0 || max < 0) {
@@ -32,7 +30,108 @@ const getRandomPositiveFloat = (min, max, digits = 1) => {
   }
 
   const result = Math.random() * (max - min) + min;
-  return parseFloat(result.toFixed(digits));
+  return result.toFixed(digits);
 };
 
-getRandomPositiveFloat(1, 10);
+const TITLE = 'Предложения по достуной цене';
+const DESCRIPTION = 'Помещение просто супер';
+
+const OFFER_TYPE = [
+  'palace',
+  'flat',
+  'house',
+  'bungalow',
+  'hotel'
+];
+
+const CHECK_TIME = [
+  '12:00',
+  '13:00',
+  '14:00'
+];
+
+const FEATURES = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner'
+];
+
+const PHOTOS = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+];
+
+const PriceRange = {
+  MIN: 1000,
+  MAX: 100000
+};
+
+const LatRange = {
+  MIN: 35.65,
+  MAX: 35.7
+};
+
+const LngRange = {
+  MIN: 139.7,
+  MAX: 139.8
+};
+
+const RoomsRange = {
+  MIN: 1,
+  MAX: 5
+};
+
+const GuestsRange = {
+  MIN: 1,
+  MAX: 10
+};
+
+//Функция, возвращающая число с ведущий нулем
+const getNumberWithZero = (number) => number < 10 ? `0${number}` : number;
+
+//Функция, возвращающая рандомный элемент
+const getRandomElement = (arr) => arr[getRandomPositiveInteger(0, arr.length - 1)];
+
+//Функция, возвращающая массив случайной длины
+const getRandomArrayPart = (arr) => {
+  const indexes = [getRandomPositiveInteger(0, FEATURES.length), getRandomPositiveInteger(0, FEATURES.length)];
+  return arr.slice(...indexes.sort());
+};
+
+const createOffer = (_item, i) => {
+  const index = i + 1;
+  const COARD_AMOUNT = 5;
+  const lat = getRandomPositiveFloat(LatRange.MIN, LatRange.MAX, COARD_AMOUNT);
+  const lng = getRandomPositiveFloat(LngRange.MIN, LngRange.MAX, COARD_AMOUNT);
+
+  return {
+    author: {
+      avatar: `img/avatars/user${getNumberWithZero(index)}.png`
+    },
+    offer: {
+      title: `${TITLE}`,
+      address: `${lat}, ${lng}`,
+      price: getRandomPositiveInteger(PriceRange.MIN, PriceRange.MAX),
+      type: getRandomElement(OFFER_TYPE),
+      rooms: getRandomPositiveInteger(RoomsRange.MIN, RoomsRange.MAX),
+      guests: getRandomPositiveInteger(GuestsRange.MIN, GuestsRange.MAX),
+      checkin: getRandomElement(CHECK_TIME),
+      checkout: getRandomElement(CHECK_TIME),
+      features: getRandomArrayPart(FEATURES),
+      description: `${DESCRIPTION}`,
+      photos: getRandomArrayPart(PHOTOS)
+    },
+    location: {
+      lat,
+      lng
+    }
+  };
+};
+
+const getRandomOffers = (length) => Array.from({ length }, createOffer);
+const OFFERS_COUNT = 10;
+export const offers = getRandomOffers(OFFERS_COUNT);
