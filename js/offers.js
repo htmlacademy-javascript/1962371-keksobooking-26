@@ -7,20 +7,13 @@ import {
 } from './utils.js';
 
 import {
-  COARD_AMOUNT,
+  COORD_AMOUNT,
   OFFERS_COUNT,
+  offerType
 } from './const.js';
 
 const TITLE = 'Предложения по достуной цене';
 const DESCRIPTION = 'Помещение просто супер';
-
-const OFFER_TYPE = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel'
-];
 
 const CHECK_TIME = [
   '12:00',
@@ -70,8 +63,8 @@ const GuestsRange = {
 
 const createOffer = (_item, i) => {
   const index = i + 1;
-  const lat = getRandomPositiveFloat(LatRange.MIN, LatRange.MAX, COARD_AMOUNT);
-  const lng = getRandomPositiveFloat(LngRange.MIN, LngRange.MAX, COARD_AMOUNT);
+  const lat = getRandomPositiveFloat(LatRange.MIN, LatRange.MAX, COORD_AMOUNT);
+  const lng = getRandomPositiveFloat(LngRange.MIN, LngRange.MAX, COORD_AMOUNT);
 
   return {
     author: {
@@ -81,7 +74,7 @@ const createOffer = (_item, i) => {
       title: `${TITLE}`,
       address: `${lat}, ${lng}`,
       price: getRandomPositiveInteger(PriceRange.MIN, PriceRange.MAX),
-      type: getRandomElement(OFFER_TYPE),
+      type: getRandomElement(Object.keys(offerType)),
       rooms: getRandomPositiveInteger(RoomsRange.MIN, RoomsRange.MAX),
       guests: getRandomPositiveInteger(GuestsRange.MIN, GuestsRange.MAX),
       checkin: getRandomElement(CHECK_TIME),
@@ -96,5 +89,4 @@ const createOffer = (_item, i) => {
     }
   };
 };
-
 export const getRandomOffers = (length = OFFERS_COUNT) => Array.from({ length }, createOffer);

@@ -1,3 +1,5 @@
+const PLURAL_THRESHOLD = 5;
+
 //Функция, возвращающая случайное целое число из переданного диапазона включительно!
 export const getRandomPositiveInteger = (min, max) => {
   if (min < 0 || max < 0) {
@@ -43,4 +45,40 @@ export const getRandomElement = (arr) => arr[getRandomPositiveInteger(0, arr.len
 export const getRandomArrayPart = (arr) => {
   const indexes = [getRandomPositiveInteger(0, arr.length), getRandomPositiveInteger(0, arr.length)];
   return arr.slice(...indexes.sort());
+};
+
+//Создает функцию генерирующую DOM-узел, заполненный контентом
+export const getElementFiller = (template) => (selector, data, createChildElement) => {
+  const element = template.querySelector(selector);
+  const content = data.toString();
+
+  if (Array.isArray(data) && data.length) {
+    if (typeof createChildElement === 'function') {
+      element.innerHTML = '';
+      data.forEach((item) => {
+        element.append(createChildElement(item));
+      });
+    } else {
+      element.textContent = data.join(', ');
+    }
+  } else if (content) {
+    element.textContent = content;
+  } else {
+    element.remove();
+  }
+};
+
+// Выбор словоформы по значению числа
+export const getWordAfterNum = (num, [form1, form2 = form1, form3 = form2]) => {
+  const lastDigit = num % 10;
+
+  if (num % 100 - lastDigit === 10 || lastDigit >= PLURAL_THRESHOLD) {
+    return form3;
+  }
+
+  if (lastDigit === 1) {
+    return form1;
+  }
+
+  return form2;
 };
