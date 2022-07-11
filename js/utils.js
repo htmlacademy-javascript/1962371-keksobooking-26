@@ -82,3 +82,18 @@ export const getWordAfterNum = (num, [form1, form2 = form1, form3 = form2]) => {
 
   return form2;
 };
+
+//функция активации
+// export const changeStatus = (activeFlag, element, className) => {
+//   const classMethod = activeFlag ? 'remove' : 'add';
+//   element.classList[classMethod](className);
+// };
+
+export const toggleForm = (active, formElement, disabledClassName) => {
+  const classMethod = active ? 'remove' : 'add';
+  formElement.classList[classMethod](disabledClassName);
+
+  formElement.querySelectorAll('fieldset').forEach((fieldset) => {
+    fieldset.disabled = !active;
+  });
+};
