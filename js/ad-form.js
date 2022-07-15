@@ -26,7 +26,8 @@ const pristine = new Pristine(formElement, {
 
 // Валидация кол-во комнат и кол-во гостей
 const validateCapacity = () => RoomToGuests[roomsFieldElement.value].includes(capacityFieldElement.value);
-const getCapacityErrorMessage = (value) => {
+const getCapacityErrorMessage = () => {
+  const { value } = roomsFieldElement;
   const rooms = `${value} ${getWordAfterNum(value, ['комнаты', 'комнат'])}`;
   const validGuests = RoomToGuests[value];
   return `Для ${rooms} допустимо гостей: ${validGuests.join(', ')}`;
