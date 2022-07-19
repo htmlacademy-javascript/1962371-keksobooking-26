@@ -18,7 +18,7 @@ export const generateCard = ({offer, author}) => {
   fillElement('.popup__text--price', `${offer.price} ₽/ночь`);
 
   // Тип жилья
-  fillElement('.popup__type', offerType[offer.type]);
+  fillElement('.popup__type', offerType[offer.type].title);
 
   // Количество гостей и комнат
   const rooms = `${offer.rooms} ${getWordAfterNum(offer.rooms, ['комната','комнаты','комнат'])}`;

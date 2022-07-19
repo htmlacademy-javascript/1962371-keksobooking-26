@@ -1,19 +1,23 @@
 import { toggleForm, getWordAfterNum } from './utils.js';
 import { offerType, RoomToGuests, MAX_PRICE } from './const.js';
+import { createSlider } from './slider.js';
+
 
 const PRICE_PRIORITY = 1000;
 const FILTERS_DISABLED_CLASS_NAME = 'ad-form--disabled';
 const formElement = document.querySelector('.ad-form');
 const submitElement = formElement.querySelector('.ad-form__submit');
-// const resetElement = formElement.querySelector('.ad-form__reset');
 const roomsFieldElement = formElement.querySelector('[name="rooms"]');
 const capacityFieldElement = formElement.querySelector('[name="capacity"]');
 const timeinFieldElement = formElement.querySelector('[name="timein"]');
 const timeoutFieldElement = formElement.querySelector('[name="timeout"]');
 const typeFieldElement = formElement.querySelector('[name="type"]');
 const priceFieldElement = formElement.querySelector('[name="price"]');
+export const sliderElement = formElement.querySelector('.ad-form__slider');
+
 
 const initialType = typeFieldElement.value;
+
 
 export const toggleFormElement = (isActive) => {
   toggleForm(isActive, formElement, FILTERS_DISABLED_CLASS_NAME);
@@ -44,20 +48,31 @@ const setPriceAttributes = (type) => {
 };
 setPriceAttributes(initialType);
 
+const priceUiSlider = createSlider(sliderElement, () => {
+  priceFieldElement.value = priceUiSlider.get();
+});
+
 const changeType = (type = typeFieldElement.value) => {
   setPriceAttributes(type);
 
-  // priceUISlider.updateOptions({
-  //   range: {
-  //     min: parseInt(priceFieldElement.min, 10),
-  //     max: MAX_PRICE,
-  //   },
-  // });
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: parseInt(priceFieldElement.min, 10),
+      max: MAX_PRICE,
+    },
+  });
 
-  // if (!priceFieldElement.value) {
-  //   priceUISlider.set(0);
-  // }
+  if (!priceFieldElement.value) {
+    sliderElement.noUiSlider.set(0);
+  }
 };
+
+priceFieldElement.addEventListener('input', () => {
+  if (pristine.validate(priceFieldElement)) {
+    priceUiSlider.set(parseInt(priceFieldElement.value, 10));
+  }
+});
+
 
 const validatePrice = (value) => {
   const price = parseInt(value || 0, 10);
@@ -75,7 +90,6 @@ typeFieldElement.addEventListener('change', () => {
   // Чтобы при смене типа сразу подсветило, если значение стало невалидным
   pristine.validate(priceFieldElement);
 });
-
 
 // Валидация время заезда и время выезда
 timeinFieldElement.addEventListener('change', () => {

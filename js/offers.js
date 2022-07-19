@@ -3,11 +3,11 @@ import {
   getRandomPositiveFloat,
   getNumberWithZero,
   getRandomElement,
-  getRandomArrayPart
+  getRandomArrayPart,
+  setAddress
 } from './utils.js';
 
 import {
-  COORD_AMOUNT,
   OFFERS_COUNT,
   offerType
 } from './const.js';
@@ -63,8 +63,12 @@ const GuestsRange = {
 
 const createOffer = (_item, i) => {
   const index = i + 1;
-  const lat = getRandomPositiveFloat(LatRange.MIN, LatRange.MAX, COORD_AMOUNT);
-  const lng = getRandomPositiveFloat(LngRange.MIN, LngRange.MAX, COORD_AMOUNT);
+  const lat = getRandomPositiveFloat(LatRange.MIN, LatRange.MAX);
+  const lng = getRandomPositiveFloat(LngRange.MIN, LngRange.MAX);
+  const location = {
+    lat,
+    lng
+  };
 
   return {
     author: {
@@ -72,7 +76,7 @@ const createOffer = (_item, i) => {
     },
     offer: {
       title: `${TITLE}`,
-      address: `${lat}, ${lng}`,
+      address: setAddress(location),
       price: getRandomPositiveInteger(PriceRange.MIN, PriceRange.MAX),
       type: getRandomElement(Object.keys(offerType)),
       rooms: getRandomPositiveInteger(RoomsRange.MIN, RoomsRange.MAX),
