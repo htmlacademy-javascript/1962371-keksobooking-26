@@ -1,14 +1,12 @@
 import { MAX_PRICE } from './const.js';
 
-const valueElement = document.querySelector('.add-form__value');
-
-const createSlider = (sliderElement) => {
+const createSlider = (sliderElement, min, valueElement ) => {
   noUiSlider.create(sliderElement, {
     range: {
-      min: 0,
+      min,
       max: MAX_PRICE,
     },
-    start: 0,
+    start: min,
     step: 500,
     connect: 'lower',
     format: {
@@ -20,7 +18,7 @@ const createSlider = (sliderElement) => {
       },
     }
   });
-  sliderElement.noUiSlider.on('update', () => {
+  sliderElement.noUiSlider.on('slide', valueElement, () => {
     valueElement.value = sliderElement.noUiSlider.get();
   });
   return sliderElement.noUiSlider;

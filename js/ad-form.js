@@ -1,7 +1,7 @@
-import { toggleForm, getWordAfterNum } from './utils.js';
-import { offerType, RoomToGuests, MAX_PRICE } from './const.js';
+import { toggleForm, getWordAfterNum, setAddress } from './utils.js';
+import { offerType, RoomToGuests, MAX_PRICE, DEFAULT_LOCATION } from './const.js';
 import { createSlider } from './slider.js';
-
+import { resetMap } from './map.js';
 
 const PRICE_PRIORITY = 1000;
 const FILTERS_DISABLED_CLASS_NAME = 'ad-form--disabled';
@@ -13,8 +13,11 @@ const timeinFieldElement = formElement.querySelector('[name="timein"]');
 const timeoutFieldElement = formElement.querySelector('[name="timeout"]');
 const typeFieldElement = formElement.querySelector('[name="type"]');
 const priceFieldElement = formElement.querySelector('[name="price"]');
-export const sliderElement = formElement.querySelector('.ad-form__slider');
+const sliderElement = formElement.querySelector('.ad-form__slider');
+const valueElement = formElement.querySelector('.ad-form__value');
+export const addressElement  = formElement.querySelector('[name="address"]');
 
+addressElement.value = setAddress(DEFAULT_LOCATION);
 
 const initialType = typeFieldElement.value;
 
@@ -48,14 +51,14 @@ const setPriceAttributes = (type) => {
 };
 setPriceAttributes(initialType);
 
-const priceUiSlider = createSlider(sliderElement, () => {
+const priceUiSlider = createSlider(sliderElement, parseInt(priceFieldElement.min, 10, valueElement), () => {
   priceFieldElement.value = priceUiSlider.get();
 });
 
 const changeType = (type = typeFieldElement.value) => {
   setPriceAttributes(type);
 
-  sliderElement.noUiSlider.updateOptions({
+  priceUiSlider.updateOptions({
     range: {
       min: parseInt(priceFieldElement.min, 10),
       max: MAX_PRICE,
@@ -112,5 +115,6 @@ submitElement.addEventListener('click', (evt) => {
 
 formElement.addEventListener('reset', () => {
   changeType(initialType);
+  resetMap();
   pristine.reset();
 });

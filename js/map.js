@@ -1,20 +1,15 @@
-import { toggleFormElement } from './ad-form.js';
+import { toggleFormElement, addressElement } from './ad-form.js';
 import { toggleFiltersMap } from './map-filters.js';
 import { setAddress } from './utils.js';
 import { generateCard } from './offer-card.js';
 import { getRandomOffers } from './offers.js';
-import { OFFERS_COUNT } from './const.js';
+import { OFFERS_COUNT, DEFAULT_LOCATION } from './const.js';
 
-const addressElement  = document.querySelector('[name="address"]');
 const resetElement = document.querySelector('.ad-form__reset');
-const ZOOM = 16;
+const ZOOM = 13;
 const MAIN_PIN_SIZE = 52;
 const PIN_SIZE = 40;
 const PIN_RATIO = 0.5;
-const DEFAULT_LOCATION = {
-  lat: 35.684,
-  lng: 139.754,
-};
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -44,18 +39,18 @@ const mainPinMarker = L.marker(DEFAULT_LOCATION,
 );
 mainPinMarker.addTo(map);
 
-addressElement.value = setAddress(DEFAULT_LOCATION);
-
 mainPinMarker.on('moveend', (evt) => {
   addressElement.value = setAddress(evt.target.getLatLng());
 });
 
 const markerGroup = L.layerGroup().addTo(map);
 
-resetElement.addEventListener('click', () => {
-  mainPinMarker.setLatLng(DEFAULT_LOCATION);
-  map.setView(DEFAULT_LOCATION, ZOOM);
-});
+export const resetMap = () => {
+  resetElement.addEventListener('click', () => {
+    mainPinMarker.setLatLng(DEFAULT_LOCATION);
+    map.setView(DEFAULT_LOCATION, ZOOM);
+  });
+};
 
 
 const pinIcon = L.icon({

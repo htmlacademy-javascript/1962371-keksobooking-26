@@ -1,6 +1,10 @@
 export const OFFERS_COUNT = 10;
 export const COORD_AMOUNT = 5;
 export const MAX_PRICE = 100000;
+export const DEFAULT_LOCATION = {
+  lat: 35.684,
+  lng: 139.754,
+};
 export const offerType = {
   palace: {
     title: 'Дворец',
