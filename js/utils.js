@@ -1,3 +1,5 @@
+import { COORD_AMOUNT } from './const.js';
+
 const PLURAL_THRESHOLD = 5;
 
 //Функция, возвращающая случайное целое число из переданного диапазона включительно!
@@ -18,21 +20,21 @@ export const getRandomPositiveInteger = (min, max) => {
 };
 
 //Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
-export const getRandomPositiveFloat = (min, max, digits = 1) => {
+export const getRandomPositiveFloat = (min, max) => {
   if (min < 0 || max < 0) {
-    return getRandomPositiveFloat(Math.abs(min), Math.abs(max), digits);
+    return getRandomPositiveFloat(Math.abs(min), Math.abs(max));
   }
 
   if (max < min) {
-    return getRandomPositiveFloat(max, min, digits);
+    return getRandomPositiveFloat(max, min);
   }
 
   if (max === min) {
-    return parseFloat(min.toFixed(digits));
+    return parseFloat(min);
   }
 
   const result = Math.random() * (max - min) + min;
-  return result.toFixed(digits);
+  return result;
 };
 
 //Функция, возвращающая число с ведущий нулем
@@ -92,3 +94,5 @@ export const toggleForm = (active, formElement, disabledClassName) => {
     fieldset.disabled = !active;
   });
 };
+
+export const setAddress = ({ lat, lng }) => `${lat.toFixed(COORD_AMOUNT)} ${lng.toFixed(COORD_AMOUNT)}`;
