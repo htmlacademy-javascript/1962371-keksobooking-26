@@ -1,0 +1,9 @@
+{
+  "bracketSameLine": true,
+  "printWidth": 120,
+  "proseWrap": "never",
+  "singleQuote": true,
+  "stylelintIntegration": true,
+  "trailingComma": "none",
+  "vueIndentScriptAndStyle": true
+}

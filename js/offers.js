@@ -7,28 +7,14 @@ import {
   setAddress
 } from './utils.js';
 
-import {
-  OFFERS_COUNT,
-  offerType
-} from './const.js';
+import { OFFERS_COUNT, offerType } from './const.js';
 
 const TITLE = 'Предложения по достуной цене';
 const DESCRIPTION = 'Помещение просто супер';
 
-const CHECK_TIME = [
-  '12:00',
-  '13:00',
-  '14:00'
-];
+const CHECK_TIME = ['12:00', '13:00', '14:00'];
 
-const FEATURES = [
-  'wifi',
-  'dishwasher',
-  'parking',
-  'washer',
-  'elevator',
-  'conditioner'
-];
+const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
 const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
@@ -93,4 +79,6 @@ const createOffer = (_item, i) => {
     }
   };
 };
-export const getRandomOffers = (length = OFFERS_COUNT) => Array.from({ length }, createOffer);
+const getRandomOffers = (length = OFFERS_COUNT) => Array.from({ length }, createOffer);
+
+export { getRandomOffers };
