@@ -3,6 +3,7 @@ import { toggleForm, debounce } from './utils.js';
 const DEFAULT_VALUE = 'any';
 const DISABLED_CLASS_NAME = 'map__filters--disabled';
 const filtersElement = document.querySelector('.map__filters');
+const inputElements = filtersElement.querySelectorAll('select, input');
 
 const typeField = filtersElement.querySelector('#housing-type');
 const priceField = filtersElement.querySelector('#housing-price');
@@ -67,7 +68,7 @@ const toggleFiltersElement = (isActive) => {
 };
 
 const initFilters = (cards, changeMarkers) => {
-  filtersElement.querySelectorAll('select, input').forEach((inputElement) => {
+  inputElements.forEach((inputElement) => {
     inputElement.addEventListener(
       'change',
       debounce(() => {
@@ -77,4 +78,15 @@ const initFilters = (cards, changeMarkers) => {
   });
 };
 
-export { toggleFiltersElement, initFilters };
+const clearFilters = () => {
+  inputElements.forEach((filterElement) => {
+    if (filterElement.tagName === 'SELECT') {
+      filterElement.value = DEFAULT_VALUE;
+    } else {
+      filterElement.checked = false;
+    }
+    filterElement.dispatchEvent(new Event('change'));
+  });
+};
+
+export { toggleFiltersElement, initFilters, clearFilters };

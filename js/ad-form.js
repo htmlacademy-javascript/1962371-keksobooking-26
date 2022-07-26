@@ -3,7 +3,7 @@ import { offerType, RoomToGuests, MAX_PRICE, DEFAULT_LOCATION } from './const.js
 import { createSlider } from './slider.js';
 import { resetMap } from './map.js';
 import { postDataServer } from './api.js';
-import { toggleFiltersElement } from './map-filters.js';
+import { toggleFiltersElement, clearFilters } from './map-filters.js';
 import { clearImages } from './avatar.js';
 
 const PRICE_PRIORITY = 1000;
@@ -125,6 +125,7 @@ submitElement.addEventListener('click', (evt) => {
 
 formElement.addEventListener('reset', () => {
   changeType(initialType);
+  clearFilters();
   resetMap();
   clearImages();
   priceUiSlider.set(parseInt(priceFieldElement.min, 10));
