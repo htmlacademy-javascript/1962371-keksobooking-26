@@ -2,9 +2,12 @@ import { toggleForm, getWordAfterNum, setAddress } from './utils.js';
 import { offerType, RoomToGuests, MAX_PRICE, DEFAULT_LOCATION } from './const.js';
 import { createSlider } from './slider.js';
 import { resetMap } from './map.js';
+import { postDataServer } from './api.js';
+import { toggleFiltersElement } from './map-filters.js';
+import { clearImages } from './avatar.js';
 
 const PRICE_PRIORITY = 1000;
-const FILTERS_DISABLED_CLASS_NAME = 'ad-form--disabled';
+const DISABLED_CLASS_NAME = 'ad-form--disabled';
 const formElement = document.querySelector('.ad-form');
 const submitElement = formElement.querySelector('.ad-form__submit');
 const roomsFieldElement = formElement.querySelector('[name="rooms"]');
@@ -14,16 +17,14 @@ const timeoutFieldElement = formElement.querySelector('[name="timeout"]');
 const typeFieldElement = formElement.querySelector('[name="type"]');
 const priceFieldElement = formElement.querySelector('[name="price"]');
 const sliderElement = formElement.querySelector('.ad-form__slider');
-const valueElement = formElement.querySelector('.ad-form__value');
-export const addressElement  = formElement.querySelector('[name="address"]');
+const addressElement = formElement.querySelector('[name="address"]');
 
 addressElement.value = setAddress(DEFAULT_LOCATION);
 
 const initialType = typeFieldElement.value;
 
-
-export const toggleFormElement = (isActive) => {
-  toggleForm(isActive, formElement, FILTERS_DISABLED_CLASS_NAME);
+const toggleFormElement = (isActive) => {
+  toggleForm(isActive, formElement, DISABLED_CLASS_NAME);
 };
 
 const pristine = new Pristine(formElement, {
@@ -51,22 +52,26 @@ const setPriceAttributes = (type) => {
 };
 setPriceAttributes(initialType);
 
-const priceUiSlider = createSlider(sliderElement, parseInt(priceFieldElement.min, 10, valueElement), () => {
+const priceUiSlider = createSlider(sliderElement, parseInt(priceFieldElement.min, 10), () => {
   priceFieldElement.value = priceUiSlider.get();
+
+  pristine.validate(priceFieldElement);
 });
 
 const changeType = (type = typeFieldElement.value) => {
   setPriceAttributes(type);
 
+  const min = parseInt(priceFieldElement.min, 10);
+
   priceUiSlider.updateOptions({
     range: {
-      min: parseInt(priceFieldElement.min, 10),
-      max: MAX_PRICE,
-    },
+      min,
+      max: MAX_PRICE
+    }
   });
 
   if (!priceFieldElement.value) {
-    sliderElement.noUiSlider.set(0);
+    priceUiSlider.set(min);
   }
 };
 
@@ -75,7 +80,6 @@ priceFieldElement.addEventListener('input', () => {
     priceUiSlider.set(parseInt(priceFieldElement.value, 10));
   }
 });
-
 
 const validatePrice = (value) => {
   const price = parseInt(value || 0, 10);
@@ -110,11 +114,21 @@ submitElement.addEventListener('click', (evt) => {
     return;
   }
   submitElement.disabled = true;
-  formElement.submit();
+  const offerData = new FormData(formElement);
+  toggleFormElement(false);
+  toggleFiltersElement(false);
+  postDataServer(offerData, () => {
+    formElement.reset();
+    submitElement.disabled = false;
+  });
 });
 
 formElement.addEventListener('reset', () => {
   changeType(initialType);
   resetMap();
+  clearImages();
+  priceUiSlider.set(parseInt(priceFieldElement.min, 10));
   pristine.reset();
 });
+
+export { addressElement, toggleFormElement };

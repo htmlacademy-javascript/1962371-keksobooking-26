@@ -1,10 +1,10 @@
 import { MAX_PRICE } from './const.js';
 
-const createSlider = (sliderElement, min, valueElement ) => {
+const createSlider = (sliderElement, min, slideHandler) => {
   noUiSlider.create(sliderElement, {
     range: {
       min,
-      max: MAX_PRICE,
+      max: MAX_PRICE
     },
     start: min,
     step: 500,
@@ -15,12 +15,11 @@ const createSlider = (sliderElement, min, valueElement ) => {
       },
       from(value) {
         return parseFloat(value);
-      },
+      }
     }
   });
-  sliderElement.noUiSlider.on('slide', valueElement, () => {
-    valueElement.value = sliderElement.noUiSlider.get();
-  });
+  sliderElement.noUiSlider.on('slide', slideHandler);
+
   return sliderElement.noUiSlider;
 };
 
