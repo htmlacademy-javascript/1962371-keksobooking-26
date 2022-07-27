@@ -20,7 +20,7 @@ const postError = () => {
 
 const getDataServer = () => {
   fetch(GET_SERVER, {
-    method: HttpMethod.GET,
+    method: HttpMethod.GET
   })
     .then((response) => {
       if (response.ok) {

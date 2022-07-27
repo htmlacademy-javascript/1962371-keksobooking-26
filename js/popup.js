@@ -17,7 +17,8 @@ const Template = {
   [PopupMode.ERROR_POST]: document.querySelector('#error').content.querySelector('.error')
 };
 Template[PopupMode.ERROR_FETCH] = Template[PopupMode.ERROR_POST].cloneNode(true);
-Template[PopupMode.ERROR_FETCH].querySelector('.error__message').textContent = 'Упс... Произошла ошибка получения объявлений';
+Template[PopupMode.ERROR_FETCH].querySelector('.error__message').textContent =
+  'Упс... Произошла ошибка получения объявлений';
 Template[PopupMode.ERROR_FETCH].querySelector('.error__button').textContent = 'Добавить объявление';
 
 const createPopup = (popupKey) => {
