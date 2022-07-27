@@ -52,7 +52,7 @@ const getRandomArrayPart = (arr) => {
 
 //Создает функцию генерирующую DOM-узел, заполненный контентом
 const getElementFiller = (template) => {
-  const callback = (selector, data = '', createChildElement) => {
+  const fillElement = (selector, data = '', createChildElement) => {
     const element = template.querySelector(selector);
     const content = data.toString();
 
@@ -71,7 +71,7 @@ const getElementFiller = (template) => {
       element.remove();
     }
   };
-  return callback;
+  return fillElement;
 };
 
 // Выбор словоформы по значению числа
