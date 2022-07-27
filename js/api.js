@@ -1,21 +1,26 @@
-import { createPopup } from './popup.js';
+import { createPopup, PopupMode } from './popup.js';
 import { displayMap } from './map.js';
+
+const HttpMethod = {
+  GET: 'GET',
+  POST: 'POST'
+};
 
 const GET_SERVER = 'https://26.javascript.pages.academy/keksobooking/data';
 const POST_SERVER = 'https://26.javascript.pages.academy/keksobooking';
 
 const getError = () => {
-  createPopup('ERROR_GET');
+  createPopup(PopupMode.ERROR_FETCH);
   return [];
 };
 
 const postError = () => {
-  createPopup('ERROR_POST');
+  createPopup(PopupMode.ERROR_POST);
 };
 
 const getDataServer = () => {
   fetch(GET_SERVER, {
-    method: 'GET'
+    method: HttpMethod.GET
   })
     .then((response) => {
       if (response.ok) {
@@ -31,13 +36,13 @@ const getDataServer = () => {
 
 const postDataServer = (body, handleSuccess) =>
   fetch(POST_SERVER, {
-    method: 'POST',
+    method: HttpMethod.POST,
     body
   })
     .then((response) => {
       if (response.ok) {
         handleSuccess();
-        return createPopup('SUCCESS_POST');
+        return createPopup(PopupMode.SUCCESS_POST);
       }
       return postError();
     })

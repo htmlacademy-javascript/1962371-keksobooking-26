@@ -3,56 +3,9 @@ import { COORD_AMOUNT } from './const.js';
 const PLURAL_THRESHOLD = 5;
 const DEBOUNCE_TIMEOUT = 500;
 
-//Функция, возвращающая случайное целое число из переданного диапазона включительно!
-const getRandomPositiveInteger = (min, max) => {
-  if (min < 0 || max < 0) {
-    return getRandomPositiveInteger(Math.abs(min), Math.abs(max));
-  }
-
-  if (max < min) {
-    return getRandomPositiveInteger(max, min);
-  }
-
-  if (max === min) {
-    return min;
-  }
-
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-//Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
-const getRandomPositiveFloat = (min, max) => {
-  if (min < 0 || max < 0) {
-    return getRandomPositiveFloat(Math.abs(min), Math.abs(max));
-  }
-
-  if (max < min) {
-    return getRandomPositiveFloat(max, min);
-  }
-
-  if (max === min) {
-    return parseFloat(min);
-  }
-
-  const result = Math.random() * (max - min) + min;
-  return result;
-};
-
-//Функция, возвращающая число с ведущий нулем
-const getNumberWithZero = (number) => (number < 10 ? `0${number}` : number);
-
-//Функция, возвращающая рандомный элемент
-const getRandomElement = (arr) => arr[getRandomPositiveInteger(0, arr.length - 1)];
-
-//Функция, возвращающая массив случайной длины
-const getRandomArrayPart = (arr) => {
-  const indexes = [getRandomPositiveInteger(0, arr.length), getRandomPositiveInteger(0, arr.length)];
-  return arr.slice(...indexes.sort());
-};
-
 //Создает функцию генерирующую DOM-узел, заполненный контентом
 const getElementFiller = (template) => {
-  const callback = (selector, data = '', createChildElement) => {
+  const fillElement = (selector, data = '', createChildElement) => {
     const element = template.querySelector(selector);
     const content = data.toString();
 
@@ -71,7 +24,7 @@ const getElementFiller = (template) => {
       element.remove();
     }
   };
-  return callback;
+  return fillElement;
 };
 
 // Выбор словоформы по значению числа
@@ -120,15 +73,4 @@ const debounce = (callback, timeoutDelay = DEBOUNCE_TIMEOUT) => {
 
 const setAddress = ({ lat, lng }) => `${lat.toFixed(COORD_AMOUNT)} ${lng.toFixed(COORD_AMOUNT)}`;
 
-export {
-  getRandomPositiveInteger,
-  getRandomPositiveFloat,
-  getNumberWithZero,
-  getRandomElement,
-  getRandomArrayPart,
-  getElementFiller,
-  getWordAfterNum,
-  toggleForm,
-  debounce,
-  setAddress
-};
+export { getElementFiller, getWordAfterNum, toggleForm, debounce, setAddress };
